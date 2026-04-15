@@ -84,6 +84,7 @@ export interface Config {
     posts: Post;
     authors: Author;
     media: Media;
+    staff: Staff;
     'api-keys': ApiKey;
     redirects: Redirect;
     users: User;
@@ -98,6 +99,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    staff: StaffSelect<false> | StaffSelect<true>;
     'api-keys': ApiKeysSelect<false> | ApiKeysSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -198,7 +200,7 @@ export interface Page {
         title?: string | null;
         subTitle?: string | null;
         highlightBackground?: boolean | null;
-        blocks?: (RichTextBlock | BlogPostsBlock | AuthorsBlock)[] | null;
+        blocks?: (RichTextBlock | BlogPostsBlock | AuthorsBlock | StaffCarouselBlock)[] | null;
         id?: string | null;
       }[]
     | null;
@@ -419,6 +421,49 @@ export interface AuthorsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StaffCarouselBlock".
+ */
+export interface StaffCarouselBlock {
+  /**
+   * Main heading shown above the carousel.
+   */
+  heading: string;
+  /**
+   * Optional short intro text for context.
+   */
+  introText?: string | null;
+  /**
+   * Automatically loads all published entries from the Staff collection. Manage members in the Staff collection.
+   */
+  staffMembers: (string | Staff)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'staff-carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staff".
+ */
+export interface Staff {
+  id: string;
+  name: string;
+  summary: string;
+  /**
+   * Optional CMS image. If empty, external image URL can be used.
+   */
+  image?: (string | null) | Media;
+  /**
+   * Optional external image URL fallback.
+   */
+  imageUrl?: string | null;
+  ctaLabel: string;
+  ctaLink: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "api-keys".
  */
 export interface ApiKey {
@@ -511,6 +556,10 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
+        relationTo: 'staff';
+        value: string | Staff;
+      } | null)
+    | ({
         relationTo: 'api-keys';
         value: string | ApiKey;
       } | null)
@@ -598,6 +647,7 @@ export interface PagesSelect<T extends boolean = true> {
               'rich-text'?: T | RichTextBlockSelect<T>;
               'blog-posts'?: T | BlogPostsBlockSelect<T>;
               authors?: T | AuthorsBlockSelect<T>;
+              'staff-carousel'?: T | StaffCarouselBlockSelect<T>;
             };
         id?: T;
       };
@@ -648,6 +698,17 @@ export interface BlogPostsBlockSelect<T extends boolean = true> {
  */
 export interface AuthorsBlockSelect<T extends boolean = true> {
   authors?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StaffCarouselBlock_select".
+ */
+export interface StaffCarouselBlockSelect<T extends boolean = true> {
+  heading?: T;
+  introText?: T;
+  staffMembers?: T;
   id?: T;
   blockName?: T;
 }
@@ -787,6 +848,21 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "staff_select".
+ */
+export interface StaffSelect<T extends boolean = true> {
+  name?: T;
+  summary?: T;
+  image?: T;
+  imageUrl?: T;
+  ctaLabel?: T;
+  ctaLink?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

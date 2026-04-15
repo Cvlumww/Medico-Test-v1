@@ -16,6 +16,7 @@ import { Media } from './collections/Media'
 import Pages from './collections/Pages'
 import Posts from './collections/Posts'
 import { Redirects } from './collections/Redirects'
+import Staff from './collections/Staff'
 import { Users } from './collections/Users'
 import { getGlobalData } from './endpoints/globalData'
 import { getPagePropsByPath } from './endpoints/pageProps'
@@ -24,6 +25,7 @@ import { getStatisPagesProps } from './endpoints/staticPages'
 import Footer from './globals/Footer'
 import Header from './globals/Header'
 import Labels from './globals/Labels'
+import { seedStaffMembers } from './seed/staff'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -38,6 +40,7 @@ export const collections: CollectionConfig[] = [
 
   // Data Collections
   Media,
+  Staff,
 
   // System Collections
   ApiKeys,
@@ -190,8 +193,7 @@ export default buildConfig({
       acl: 'public-read',
     }),
   ],
-  // Uncomment the following line to seed the CMS with default data
-  // onInit: async (payload) => {
-  //  await seedCMS(payload)
-  //},
+  onInit: async (payload) => {
+    await seedStaffMembers(payload)
+  },
 })

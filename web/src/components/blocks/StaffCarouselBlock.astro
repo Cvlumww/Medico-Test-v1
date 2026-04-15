@@ -1,0 +1,156 @@
+---
+import Img from '@/components/Img.astro'
+import type { Media } from 'cms/src/payload-types'
+
+type StaffCard = {
+  name: string
+  summary: string
+  image?: Media | string | number | null
+  imageUrl?: string | null
+  ctaLabel: string
+  ctaLink: string
+}
+
+type Props = {
+  heading: string
+  introText?: string | null
+  staffMembers: (StaffCard | string | number | null)[]
+}
+
+const { heading, introText, staffMembers } = Astro.props
+
+const carouselId = `staff-carousel-${Math.random().toString(36).slice(2, 10)}`
+const headingId = `${carouselId}-heading`
+
+const getInitials = (name: string): string => {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? '')
+    .join('')
+}
+
+const isMedia = (value: StaffCard['image']): value is Media => {
+  return Boolean(value && typeof value === 'object' && 'filename' in value)
+}
+
+const isExternalLink = (value: string): boolean => /^https?:\/\//i.test(value)
+const normalizedStaffMembers = staffMembers.filter(
+  (member): member is StaffCard => Boolean(member && typeof member === 'object' && 'name' in member),
+)
+---
+
+<section class="space-y-6" aria-labelledby={headingId}>
+  <div class="space-y-2 text-center">
+    <h3 id={headingId} class="text-2xl font-bold text-slate-900">{heading}</h3>
+    {introText && <p class="mx-auto max-w-3xl text-balance text-slate-600">{introText}</p>}
+  </div>
+
+  {
+    normalizedStaffMembers.length > 0 ? (
+      <div class="space-y-4">
+        <div class="flex items-center justify-end gap-2">
+          <span class="sr-only">Staff carousel controls</span>
+          <button
+            type="button"
+            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700"
+            data-carousel-prev={carouselId}
+            aria-controls={carouselId}
+            aria-label="Previous staff cards"
+          >
+            Prev
+          </button>
+          <button
+            type="button"
+            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-700"
+            data-carousel-next={carouselId}
+            aria-controls={carouselId}
+            aria-label="Next staff cards"
+          >
+            Next
+          </button>
+        </div>
+
+        <ul
+          id={carouselId}
+          class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:thin]"
+          role="list"
+          aria-label={`${heading} staff members`}
+        >
+          {
+            normalizedStaffMembers.map((card) => (
+              <li class="w-[85%] shrink-0 snap-start sm:w-[60%] lg:w-[33%]">
+                <article class="flex h-full flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <div class="mb-4">
+                    {isMedia(card.image) ? (
+                      <Img
+                        image={card.image}
+                        size="sm"
+                        class="h-16 w-16 rounded-full object-cover"
+                        loading="lazy"
+                      />
+                    ) : card.imageUrl ? (
+                      <img
+                        src={card.imageUrl}
+                        alt={`${card.name} portrait`}
+                        class="h-16 w-16 rounded-full object-cover"
+                        loading="lazy"
+                        width="64"
+                        height="64"
+                      />
+                    ) : (
+                      <div
+                        class="flex h-16 w-16 items-center justify-center rounded-full bg-slate-200 text-sm font-bold text-slate-700"
+                        aria-hidden="true"
+                      >
+                        {getInitials(card.name)}
+                      </div>
+                    )}
+                  </div>
+
+                  <h4 class="text-lg font-semibold text-slate-900">{card.name}</h4>
+                  <p class="mt-2 flex-1 text-sm leading-6 text-slate-600">{card.summary}</p>
+
+                  <div class="mt-5">
+                    <a
+                      href={card.ctaLink}
+                      class="inline-flex items-center rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white no-underline transition-colors hover:bg-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                      target={isExternalLink(card.ctaLink) ? '_blank' : undefined}
+                      rel={isExternalLink(card.ctaLink) ? 'noreferrer noopener' : undefined}
+                    >
+                      {card.ctaLabel}
+                    </a>
+                  </div>
+                </article>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    ) : (
+      <p class="py-6 text-center text-slate-500">No staff members configured yet.</p>
+    )
+  }
+</section>
+
+<script is:inline>
+  document.querySelectorAll('[data-carousel-prev], [data-carousel-next]').forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) return
+
+    const carouselId =
+      button.getAttribute('data-carousel-prev') || button.getAttribute('data-carousel-next')
+    if (!carouselId) return
+
+    const carousel = document.getElementById(carouselId)
+    if (!carousel) return
+
+    button.addEventListener('click', () => {
+      const direction = button.hasAttribute('data-carousel-prev') ? -1 : 1
+      const card = carousel.querySelector('li')
+      const cardWidth = card instanceof HTMLElement ? card.offsetWidth : carousel.clientWidth
+      const gap = 16
+      carousel.scrollBy({ left: direction * (cardWidth + gap), behavior: 'smooth' })
+    })
+  })
+</script>

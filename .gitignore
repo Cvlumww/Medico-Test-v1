@@ -96,11 +96,14 @@ web_modules/
 
 # dotenv environment variable files
 
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# .env
+# .env.development.local
+# .env.test.local
+# .env.production.local
+# .env.local
+
+# Commented out the env files to ensure the project can be set up locally easily. 
+
 
 # parcel-bundler cache (https://parceljs.org/)
 

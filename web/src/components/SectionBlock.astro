@@ -2,14 +2,28 @@
 import type {
   AuthorsBlock as AuthorsBlockType,
   BlogPostsBlock as BlogPostsBlockType,
+  Media,
   Page,
   RichTextBlock as RichTextBlockType,
 } from 'cms/src/payload-types'
 import AuthorsBlock from './blocks/AuthorsBlock.astro'
 import BlogPostsBlock from './blocks/BlogPostsBlock.astro'
 import RichTextBlock from './blocks/RichTextBlock/RichTextBlock.astro'
+import StaffCarouselBlock from './blocks/StaffCarouselBlock.astro'
 
 export type Props = NonNullable<NonNullable<Page['sections']>[number]['blocks']>[number]
+type StaffCarouselBlockType = {
+  heading: string
+  introText?: string | null
+  staffMembers: {
+    name: string
+    summary: string
+    image?: Media | string | number | null
+    imageUrl?: string | null
+    ctaLabel: string
+    ctaLink: string
+  }[]
+}
 
 const { blockType, ...props } = Astro.props
 ---
@@ -23,6 +37,8 @@ const { blockType, ...props } = Astro.props
         return <BlogPostsBlock {...(props as BlogPostsBlockType)} />
       case 'authors':
         return <AuthorsBlock {...(props as AuthorsBlockType)} />
+      case 'staff-carousel':
+        return <StaffCarouselBlock {...(props as StaffCarouselBlockType)} />
       default:
         throw new Error('Block type not implemented: ' + blockType)
     }
