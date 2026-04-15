@@ -133,4 +133,5 @@ API keys are managed via the CMS admin panel and are restricted to admin users o
 
 A dedicated collection for managing redirects, allowing you to handle old paths and maintain SEO when restructuring your site.
 #   M e d i c o - T e s t - v 1  
+ #   M e d i c o - T e s t - v 1  
  
