@@ -16,11 +16,13 @@ For the carousel, I decided to use a combination of vanilla JavaScript and CSS s
 
 I prioritized the data structure and functionality. If I were taking this further, I would:
 
-Integrate a library like Embla to handle more complex carousel behavior.
-Build out the individual dynamic routes for the staff profile pages.
-Refine the styling and add more robust error handling for missing content fields.
-Allow the editor to remove staff members on a page specific level.
-Add department level relationships and front end filtering for 'dev team', 'marketing team' etc.
+- Integrate a library like Embla to handle more complex carousel behavior.
+- Build out the individual dynamic routes for the staff profile pages.
+- Refine the styling and add more robust error handling for missing content fields.
+- Allow the editor to remove staff members on a page specific level.
+- Add department level relationships and front end filtering for 'dev team', 'marketing team' etc.
+
+Additionally I have added the .env files to the repo for ease of installation however this wouldn't be done on a live site.
 
 Please let me know if you have any questions about my approach.
 
