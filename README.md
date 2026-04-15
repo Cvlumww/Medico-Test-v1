@@ -26,12 +26,10 @@ Follow these steps to set up the project for local development:
 4. Create a `.env` file in both the `cms` and `web` folders. You can use the `.env.example` files as a reference in both folders which contain descriptions for each varialbe.
 
 5. Generate and set a secure secret key for the CMS:
-
    - Visit https://payloadsecret.io/ to generate a random 32-byte secret
    - Set this as your `PAYLOAD_SECRET` in the CMS `.env` file
 
 6. Set up MongoDB (if using MongoDB adapter):
-
    - Download and install [MongoDB Community Server](https://www.mongodb.com/try/download/community)
    - Optional but recommended: Install [MongoDB Compass](https://www.mongodb.com/try/download/compass) for database management
 
@@ -44,22 +42,18 @@ The CMS comes with a [seed script](https://github.com/jhb-software/payload-astro
 When adapting this template for your project, consider the following steps:
 
 1. Update the CMS base configuration:
-
    - Update the `websiteName`, `csrf` and `resend` configuration information in `payload.config.ts` to match your project details
 
 2. Update the website base configuration:
-
    - Update the `websiteConfig` in `web/src/config.ts` with your project details
    - Place your logo, favicon and other assets in the `web/public` directory
 
 3. Customize the CMS:
-
    - Review and modify the collections in `cms/src/collections` to match your content needs
    - Add or remove blocks in `cms/src/blocks` to match your content needs
    - Add or remove plugins based on your requirements
 
 4. Adapt the website:
-
    - Implement templates for your CMS collections in `web/src/layout/collections`
    - Add Astro components for your CMS blocks in `web/src/components/blocks`
    - Update the files which generate structured data in `web/src/schema.ts`
@@ -138,59 +132,5 @@ API keys are managed via the CMS admin panel and are restricted to admin users o
 ### Redirects Collection
 
 A dedicated collection for managing redirects, allowing you to handle old paths and maintain SEO when restructuring your site.
-
-### Redeploy Website Button
-
-The Astro website is fully static, so the CMS includes a convenient redeploy button that allows content editors to trigger a fresh build of the website with updated CMS data with a single click.
-
-### Live Preview
-
-Real-time preview functionality allows content editors to see changes before publishing, improving the content creation workflow.
-
-## Website Features
-
-### SEO
-
-Comprehensive SEO optimization including meta tags, Open Graph tags, Twitter Cards, and canonical URLs.
-
-### Structured Data (Schema.org)
-
-Automatic generation of JSON-LD structured data to help search engines understand your content better.
-
-### Plausible Analytics
-
-Privacy-friendly analytics integration with Plausible for tracking website performance without compromising user privacy.
-
-### Automatic Sitemap Generation
-
-Dynamic sitemap generation that updates automatically as you add or modify content, helping search engines discover your pages.
-
-### Robots.txt
-
-Automatically generated robots.txt file to control search engine crawling behavior.
-
-### Redirects via Vercel Adapter
-
-Server-side redirects handled through the Vercel adapter for fast, SEO-friendly URL redirections.
-
-### Alternate Paths Generation
-
-Automatic generation of alternate language paths for multi-language support, ensuring proper hreflang implementation for international SEO.
-
----
-
-## Contributing
-
-If you want to contribute to this project, feel free to fork the repository and create a pull request. I am happy to receive feedback and suggestions for improvements.
-
-## Support
-
-If you need assistance with setting up this tech stack or Payload and Astro in general, feel free to contact me via [email](mailto:info@jhb.software) or [X](https://x.com/jhb_dev).
-
-If you find this project helpful and would like to support its continued development, consider supporting me via the link below. Your support helps maintain and improve this and my other open-source projects:
-
-<p>
-  <a href="https://www.buymeacoffee.com/jhb_dev" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-blue.png" alt="Buy Me A Coffee" height="40px">
-  </a>
-</p>
+#   M e d i c o - T e s t - v 1  
+ 
